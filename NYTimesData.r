@@ -137,5 +137,17 @@ CCDALL<-CCDALL[ order(as.character(dimnames(CCDALL)[[1]]))  ,,]
 
 saveRDS(CCDALL,file="UScountiesC19.rds")
 
-write.csv(CCDALL,file="UScountiesC19.csv",row.names=FALSE)
+fips<-dimnames(CCDALL)[[1]] 
+
+Ccases<-as.data.frame(CCDALL[,,1] ) 
+Ccases<-cbind(fips,Ccases)
+
+Cdeaths<-as.data.frame(CCDALL[,,2] ) 
+Cdeaths<-cbind(fips,Cdeaths)
+
+
+write.csv(Ccases,file="UScountiesC19Cases.csv",row.names=FALSE) 
+write.csv(Cdeaths,file="UScountiesC19Deaths.csv",row.names=FALSE)
+
+
 
