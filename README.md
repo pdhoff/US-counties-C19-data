@@ -1,4 +1,4 @@
-This code reformats the New York Times COVID dataset, available at [https://github.com/nytimes/covid-19-data]. Specifically, this code creates county-specific weekly time-series of new cases and new deaths. 
+This code reformats the [New York Times COVID dataset](https://github.com/nytimes/covid-19-data). Specifically, this code creates county-specific weekly time-series of new cases and new deaths. 
 
 Notes:
 
