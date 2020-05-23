@@ -1,17 +1,14 @@
-This code reformats the [New York Times COVID dataset](https://github.com/nytimes/covid-19-data). Specifically, this code creates county-specific weekly time-series of new cases and new deaths. 
+This code reformats the [New York Times](https://github.com/nytimes/covid-19-data) and [USA Facts](https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/) COVID datasets. 
+Specifically, this code creates county-specific weekly time-series of new cases and new deaths. 
 
-The files created by this code include the following:
-
-1. An `.rds` file for a three-dimensional array, where the three dimensions represent counties, weeks and count type (cases or deaths). You can identify the levels of each of these three factors using the `dimnames` command in R. 
-
-2. A `.csv` file giving weekly case counts by county. 
-
-3. A `.csv` file giving weekly death counts by county. 
+The files created by this code include weekly case and death counts by US county (indexed by FIPS code) in `.rds` and `.csv` formats. 
+I've put together some related county-level data that might be useful for analyzing these COVID data, available at (https://github.com/pdhoff/US-counties-data). These other data include county-level information on population, latitude and longitude, geographic area, demographics, etc. 
 
 
 Notes:
 
-*  I have disaggregated the New York City data based on the relative populations of the five boroughs. 
-* I would not take the `case` data too seriously. The number of cases is a nondecreasing function of the number of tests, and reasons for and rates of testing may vary greatly by county. 
+* The data from the two sources (USA Facts and NY Times) are pretty similar, but there are some differences. See the data source pages for details on how they are differently handling various data issues. 
+*  I have disaggregated the NYT New York City data based on the relative populations of the five boroughs. 
+* I do not take the `case` data too seriously. The number of cases is a nondecreasing function of the number of tests, and reasons for and rates of testing may vary greatly by county. 
 
 
