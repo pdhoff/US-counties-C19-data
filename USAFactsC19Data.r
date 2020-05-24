@@ -47,9 +47,11 @@ dates<-sort(unique(colnames(cdeaths)))
 days<-1:(7*(length(dates)%/%7))
 weeks<-1+(days-1)%/%7
 ndays<-length(days)
+mxweeks<-max(weeks) 
+weeks<-c(weeks,rep(mxweeks+1,ncol(cdeaths)-ndays))
 
 CCD<-NULL
-for(w in 1:max(weeks)){ CCD<-cbind(CCD,apply(cdeaths[,weeks==w],1,sum))  }
+for(w in 1:mxweeks){ CCD<-cbind(CCD,apply(cdeaths[,weeks==w],1,sum))  }
  
 rownames(CCD)<-fips 
 colnames(CCD)<-substring(dates[ seq(1,max(days),by=7)+6 ],2) 
