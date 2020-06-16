@@ -1,4 +1,4 @@
-This code reformats the [New York Times](https://github.com/nytimes/covid-19-data) and [USA Facts](https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/) COVID datasets. 
+This code reformats the [USA Facts](https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/) COVID datasets. 
 Specifically, this code creates county-specific weekly time-series of new cases and new deaths. 
 
 The files created by this code include weekly case and death counts by US county (indexed by FIPS code) in `.rds` and `.csv` formats. 
@@ -7,8 +7,6 @@ I've put together some related county-level data that might be useful for analyz
 
 Notes:
 
-* The data from the two sources (USA Facts and NY Times) are pretty similar, but there are some differences. See the data source pages for details on how they are differently handling various data issues. 
-*  I have disaggregated the NYT New York City data based on the relative populations of the five boroughs. 
 * I do not take the `case` data too seriously. The number of cases is a nondecreasing function of the number of tests, and reasons for and rates of testing may vary greatly by county. 
 
 
