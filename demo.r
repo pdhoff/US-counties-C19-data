@@ -33,5 +33,61 @@ plot(USCdata$longitude,USCdata$latitude, cex=sqrt(crate/max(crate)),
 plot(USCdata$longitude,USCdata$latitude, cex=sqrt(crate/max(crate)),
      xlim=c(-125,-65),ylim=c(23,50), xlab="longitude",ylab="latitude")
 
+#### -- Function to compute and plot rates in each state 
+stateRates<-function(state,plot=FALSE){
+  idxState<-which(USCdata$"state"==state)
+  yc<-CCdata[ idxState,,drop=FALSE]
+  ps<-USCdata$pop[ idxState ]
+  xy<-USCdata[ idxState, c("longitude","latitude") ]
+  rc<-yc/ps
+
+  if(plot){
+    par(mfrow=c(1,2),mar=c(3,3,1,1),mgp=c(1.75,.75,0))
+    mslope<-rc[,tail(1:ncol(rc),4) ]%*%poly(1:4,1)
+    plot(xy,col="gray",xlab="",ylab="",xaxt="n",yaxt="n")
+    points(xy[mslope<0,],col="green")
+    points(xy[mslope>0,],col="red")
+    plot( 10000*apply(yc,2,sum)/sum(ps),xlab="week",ylab="rate x 10000")
+  }
+
+  10000*apply(yc,2,sum)/sum(ps)
+}
+
+
+#### ----  Compute rates in each state
+SRates<-NULL
+for(st in sort(unique(USCdata$state)) ){
+  SRates<-rbind(SRates, stateRates(st) )
+}
+rownames(SRates)<- sort(unique(USCdata$state))
+
+
+#### ---- US totals 
+UST<-10000*apply(CCdata,2,sum)/sum(USCdata$pop)
+
+
+
+#### --  Plot rates for some states that I've lived in
+states<-c("Michigan","New York","Indiana","Wisconsin","Washington","North Carolina")
+plot(UST,type="l",lwd=4,col="lightgray",ylim=range(SRates[states,]),ylab="weekly rate per 10000",xlab="week")
+matplot(t(SRates[states,] ),add=TRUE)
+matplot(t(SRates[states,] ),type="l",add=TRUE )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
