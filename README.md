@@ -1,4 +1,4 @@
-C19 data
+COVID-19 data
 ================
 Peter Hoff
 June 17, 2020
