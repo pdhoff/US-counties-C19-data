@@ -16,10 +16,12 @@ for analyzing these COVID data, available at
 county-level information on population, latitude and longitude,
 geographic area, demographics, etc.
 
-Notes:  
-\* I do not take the `case` data too seriously. The number of cases is a
-nondecreasing function of the number of tests, and reasons for and rates
-of testing may vary greatly by county.
+Comment: I suspect the `case` data are more a reflection of the number
+of tests being done than the number of people in the population who have
+the disease. The number of cases is a nondecreasing function of the
+number of tests, and reasons for and rates of testing may vary greatly
+by county. If someone has some data on the number of positive tests
+among a random sample from any population, please let me know.
 
 -----
 
