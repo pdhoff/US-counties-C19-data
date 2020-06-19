@@ -12,7 +12,13 @@ The files created by this code include weekly case and death counts by US county
 
 I've put together some related county-level data that might be useful for analyzing these COVID data, available at <https://github.com/pdhoff/US-counties-data>. These other data include county-level information on population, latitude and longitude, geographic area, demographics, etc.     
 
-Comment: I suspect the `case` data are more a reflection of the number of tests being done than the number of people in the population who have the disease. The number of cases is a nondecreasing function of the number of tests, and reasons for and rates of testing may vary greatly by county. If someone has some data on the number of positive tests among a random sample from any population, please let me know. 
+Comments: 
+
+* Some of the cumulative totals were non-monotonic. I have monotonized them. 
+
+* The USA Facts database includes an entry for "New York City Unallocated/Probable". I have given this a FIPS code of 36000 (36 is the FIPS code of New York State). Similarly, data from the Grand Princess Cruise Ship is allocated to California, and given the FIPS code 06000 (06 is the FIPS code of California). 
+
+* I suspect the `case` data are more a reflection of the number of tests being done than the number of people in the population who have the disease. The number of cases is a nondecreasing function of the number of tests, and reasons for and rates of testing may vary greatly by county. If someone has some data on the number of positive tests among a random sample from any population, please let me know. 
        
 ---
 
@@ -26,10 +32,22 @@ Load data:
 ```{r}
 ## - county death counts
 CCdata<-readRDS(url("https://github.com/pdhoff/US-counties-C19-data/blob/master/UScountiesC19Deaths.rds?raw=true")) 
-
-## - US counties information 
-USCdata<-readRDS(url("https://github.com/pdhoff/US-counties-data/blob/master/UScounties.rds?raw=true"))
 ```
+
+Merge with county information
+```{r} 
+## - US counties information 
+USCdata<-readRDS(url("https://github.com/pdhoff/US-counties-data/blob/master/UScounties.rds?raw=true"))  
+
+CCdata<-CCdata[ match(  USCdata$fips , rownames(CCdata)) ,] 
+
+## check 
+
+all( rownames(CCdata) == USCdata$fips )
+
+```
+Note that we've just removed any data that were not 
+allocated to a specific county. This includes some data from NYC, and some data from the Grand Princess Cruise Ship that was allocated to CA but not to a county. 
 
 Compute state specific death rates:
 

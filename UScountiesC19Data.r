@@ -8,8 +8,8 @@ cdf2pdf<-function(s){
   y<-s
   if(length(s)>1){
     ## first monotonize the cumulative sum since it must be nondecreasing   
-    y<-isoreg(y)$yf
-    y<-diff(c(0,s))
+    y<-round(isoreg(y)$yf)
+    y<-diff(c(0,y))
     names(y)<-names(s)
   }
 y
@@ -32,9 +32,21 @@ for(k in 1:2){
   rownames(ccounts)<-fips
   ccounts<-t(apply(ccounts,1,cdf2pdf) )
 
-  ## Limit to US counties in my county database 
-  USCdata<-readRDS(url("https://github.com/pdhoff/US-counties-data/blob/master/UScounties.rds?raw=true"))
-  ccounts<-ccounts[ is.element( rownames(ccounts), USCdata$fips ) ,]  
+  ## Compare to US counties in my county database 
+  USCdata<-readRDS(url("https://github.com/pdhoff/US-counties-data/blob/master/UScounties.rds?raw=true")) 
+
+  notCounty<-which( !is.element( rownames(ccounts), USCdata$fips )  ) 
+  dat[ notCounty,1:4]  
+  
+## Missing from county database 
+#    countyFIPS                        County.Name State stateFIPS X1.22.20
+#96         2270           Wade Hampton Census Area    AK         2        0
+#193        6000         Grand Princess Cruise Ship    CA         6        0
+#562       15005                     Kalawao County    HI        15        0
+#1863          1 New York City Unallocated/Probable    NY        36        0
+
+  idx<-which(dat$County.Name=="New York City Unallocated/Probable") 
+  rownames(ccounts)[idx]<-"36000"  
   fips<-rownames(ccounts) 
 
   ## Convert to weeks 

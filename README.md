@@ -16,12 +16,24 @@ for analyzing these COVID data, available at
 county-level information on population, latitude and longitude,
 geographic area, demographics, etc.
 
-Comment: I suspect the `case` data are more a reflection of the number
-of tests being done than the number of people in the population who have
-the disease. The number of cases is a nondecreasing function of the
-number of tests, and reasons for and rates of testing may vary greatly
-by county. If someone has some data on the number of positive tests
-among a random sample from any population, please let me know.
+Comments:
+
+  - Some of the cumulative totals were non-monotonic. I have monotonized
+    them.
+
+  - The USA Facts database includes an entry for “New York City
+    Unallocated/Probable”. I have given this a FIPS code of 36000 (36 is
+    the FIPS code of New York State). Similarly, data from the Grand
+    Princess Cruise Ship is allocated to California, and given the FIPS
+    code 06000 (06 is the FIPS code of California).
+
+  - I suspect the `case` data are more a reflection of the number of
+    tests being done than the number of people in the population who
+    have the disease. The number of cases is a nondecreasing function of
+    the number of tests, and reasons for and rates of testing may vary
+    greatly by county. If someone has some data on the number of
+    positive tests among a random sample from any population, please let
+    me know.
 
 -----
 
@@ -34,10 +46,27 @@ Load data:
 ``` r
 ## - county death counts
 CCdata<-readRDS(url("https://github.com/pdhoff/US-counties-C19-data/blob/master/UScountiesC19Deaths.rds?raw=true")) 
-
-## - US counties information 
-USCdata<-readRDS(url("https://github.com/pdhoff/US-counties-data/blob/master/UScounties.rds?raw=true"))
 ```
+
+Merge with county information
+
+``` r
+## - US counties information 
+USCdata<-readRDS(url("https://github.com/pdhoff/US-counties-data/blob/master/UScounties.rds?raw=true"))  
+
+CCdata<-CCdata[ match(  USCdata$fips , rownames(CCdata)) ,] 
+
+## check 
+
+all( rownames(CCdata) == USCdata$fips )
+```
+
+    ## [1] TRUE
+
+Note that we’ve just removed any data that were not allocated to a
+specific county. This includes some data from NYC, and some data from
+the Grand Princess Cruise Ship that was allocated to CA but not to a
+county.
 
 Compute state specific death rates:
 
@@ -54,14 +83,14 @@ plot(sort(srate*10000),type="n",xaxt="n",xlab="",ylab="death rate x 10000")
 text(rank(srate*10000),srate*10000,names(srate),srt=45,cex=.6) 
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
 ## - rates versus population density 
 plot( log(USCdata$population/USCdata$area), asin(sqrt(ctotal/USCdata$population )))
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-2-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->
 
 Let’s use some geographic information:
 
@@ -72,7 +101,7 @@ plot(USCdata$longitude,USCdata$latitude, cex=sqrt(crate/max(crate)),
      xlab="longitude",ylab="latitude")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 ``` r
 ## - Lower 48 only
@@ -80,7 +109,7 @@ plot(USCdata$longitude,USCdata$latitude, cex=sqrt(crate/max(crate)),
      xlim=c(-125,-65),ylim=c(23,50), xlab="longitude",ylab="latitude")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-4-2.png)<!-- -->
 
 Here is a function that will compute the weekly state-level rates, and
 plot them if requested:
@@ -130,4 +159,4 @@ matplot(t(SRates[states,] ),add=TRUE)
 matplot(t(SRates[states,] ),type="l",add=TRUE )
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
