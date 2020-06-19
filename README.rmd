@@ -6,7 +6,7 @@ output: github_document
 ---
 
 
-This code reformats the [USA Facts](https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/) COVID datasets. 
+The file `UScountiesC19Data.r` reformats the [USA Facts](https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/) COVID datasets. 
 Specifically, this code creates county-specific weekly time-series of new cases and new deaths. 
 The files created by this code include weekly case and death counts by US county (indexed by FIPS code) in `.rds` and `.csv` formats.   
 
@@ -27,14 +27,22 @@ What follows below are a few descriptive plots of the data.
  
 ---
 
-Load data: 
 
-```{r}
+You can create the data locally by sourcing `UScountiesC19Data.r`. Once 
+you've done this, you can load the data as follows:
+
+```{r} 
 ## - county death counts
-CCdata<-readRDS(url("https://github.com/pdhoff/US-counties-C19-data/blob/master/UScountiesC19Deaths.rds?raw=true")) 
+CCdata<-readRDS("UScountiesC19Deaths.rds") 
 ```
 
-Merge with county information
+If you haven't created or downloaded this file locally, you can load it into your R session directly from the web as follows:
+
+```{r,eval=FALSE}
+CCdata<-readRDS(url("https://github.com/pdhoff/US-counties-C19-data/blob/master/UScountiesC19Deaths.rds?raw=true"))   
+```
+
+Merge with county information:
 ```{r} 
 ## - US counties information 
 USCdata<-readRDS(url("https://github.com/pdhoff/US-counties-data/blob/master/UScounties.rds?raw=true"))  

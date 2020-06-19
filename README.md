@@ -3,7 +3,7 @@ COVID-19 data
 Peter Hoff
 June 17, 2020
 
-This code reformats the [USA
+The file `UScountiesC19Data.r` reformats the [USA
 Facts](https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/)
 COVID datasets. Specifically, this code creates county-specific weekly
 time-series of new cases and new deaths. The files created by this code
@@ -41,14 +41,22 @@ What follows below are a few descriptive plots of the data.
 
 -----
 
-Load data:
+You can create the data locally by sourcing `UScountiesC19Data.r`. Once
+you’ve done this, you can load the data as follows:
 
 ``` r
 ## - county death counts
-CCdata<-readRDS(url("https://github.com/pdhoff/US-counties-C19-data/blob/master/UScountiesC19Deaths.rds?raw=true")) 
+CCdata<-readRDS("UScountiesC19Deaths.rds") 
 ```
 
-Merge with county information
+If you haven’t created or downloaded this file locally, you can load it
+into your R session directly from the web as follows:
+
+``` r
+CCdata<-readRDS(url("https://github.com/pdhoff/US-counties-C19-data/blob/master/UScountiesC19Deaths.rds?raw=true"))   
+```
+
+Merge with county information:
 
 ``` r
 ## - US counties information 
@@ -83,14 +91,14 @@ plot(sort(srate*10000),type="n",xaxt="n",xlab="",ylab="death rate x 10000")
 text(rank(srate*10000),srate*10000,names(srate),srt=45,cex=.6) 
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 ``` r
 ## - rates versus population density 
 plot( log(USCdata$population/USCdata$area), asin(sqrt(ctotal/USCdata$population )))
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-4-2.png)<!-- -->
 
 Let’s use some geographic information:
 
@@ -101,7 +109,7 @@ plot(USCdata$longitude,USCdata$latitude, cex=sqrt(crate/max(crate)),
      xlab="longitude",ylab="latitude")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 ``` r
 ## - Lower 48 only
@@ -109,7 +117,7 @@ plot(USCdata$longitude,USCdata$latitude, cex=sqrt(crate/max(crate)),
      xlim=c(-125,-65),ylim=c(23,50), xlab="longitude",ylab="latitude")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-4-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-5-2.png)<!-- -->
 
 Here is a function that will compute the weekly state-level rates, and
 plot them if requested:
@@ -159,4 +167,4 @@ matplot(t(SRates[states,] ),add=TRUE)
 matplot(t(SRates[states,] ),type="l",add=TRUE )
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
