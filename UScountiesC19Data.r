@@ -26,7 +26,20 @@ for(k in 1:2){
   dat<-dat[ dat$countyFIPS!="0",] 
 
   ## Convert to data matrix 
-  ccounts<-as.matrix(dat[,-(1:4)]  )
+  ccounts<-as.matrix(dat[,-(1:4)]  ) 
+  days<-colnames(ccounts) 
+
+  ## 2020-06-27: What the? The most recent data 
+  ## has a character "c" for a count for a single 
+  ## entry, county 34009 on day 59.
+  ccounts<-matrix(as.numeric(ccounts),nrow(ccounts),ncol(ccounts)) 
+  idx<-which(is.na(ccounts),arr.ind=TRUE) 
+  if(nrow(idx)>0)
+  { 
+    for(i in 1:nrow(idx)){ ccounts[idx[1],idx[2]]<-ccounts[idx[1]+1,idx[2]] } 
+  }
+  colnames(ccounts)<-days 
+
   fips<-as.character(dat$countyFIPS)
   fips[nchar(fips)==4]<-paste0("0",fips[nchar(fips)==4] ) 
   rownames(ccounts)<-fips
@@ -50,7 +63,7 @@ for(k in 1:2){
   fips<-rownames(ccounts) 
 
   ## Convert to weeks 
-  dates<-sort(unique(colnames(ccounts)))
+  dates<-colnames(ccounts)
   days<-1:(7*(length(dates)%/%7))
   weeks<-1+(days-1)%/%7
   ndays<-length(days)
@@ -61,8 +74,10 @@ for(k in 1:2){
   ## Construct weekly count matrix 
   CCD<-NULL
   for(w in 1:mxweeks){ CCD<-cbind(CCD,apply(ccounts[,weeks==w],1,sum))  }
-  rownames(CCD)<-fips 
-  colnames(CCD)<-substring(dates[ seq(1,max(days),by=7)+6 ],2) 
+  rownames(CCD)<-fips  
+
+  ## week name is the date of the last day in the 7-day period 
+  colnames(CCD)<-substring(dates[ seq(1,max(days),by=7)+6+sum(weeks==0) ],2) 
 
   saveRDS(CCD,file=paste0("UScountiesC19",vtype[k],".rds")) 
 
@@ -70,4 +85,6 @@ for(k in 1:2){
   CCD<-cbind(fips,CCD) 
   write.csv(CCD,file=paste0("UScountiesC19",vtype[k],".csv"),row.names=FALSE)
 
-}
+} 
+
+
