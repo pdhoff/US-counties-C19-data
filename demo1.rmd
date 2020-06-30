@@ -1,0 +1,37 @@
+---
+title: "US COVID-19 summary statistics"
+author: "Peter Hoff"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: github_document
+---
+
+
+Get data:
+```{r}
+source("USC19data.r") 
+
+C19data<-pullC19data()
+```
+
+Data for Durham County, NC:
+```{r}
+dnc<-C19data["37063",,] 
+tail(dnc) 
+```
+
+Get weekly totals for each state:
+```{r}
+Y<-weekify(stateify(C19data)) 
+dim(Y) 
+```
+
+Deaths per cases plot for some states I've lived in:
+```{r} 
+phstates<-c("MI","NY","IN","WI","WA","NC") 
+
+matplot( t(Y[phstates,,1]/Y[phstates,,2]), 
+         type="l",lty=1,lwd=2,ylab="deaths per case",xlab="week")
+
+legend(0,.15,lwd=2,col=1:length(phstates),legend=phstates,bty="n") 
+```
+
