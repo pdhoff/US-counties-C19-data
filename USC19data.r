@@ -30,6 +30,12 @@ pullC19data<-function()
   Deaths<-as.matrix(usfDeaths[,-(1:4)])
   Cases<-as.matrix(usfCases[,-(1:4)])
 
+  ## 2020-07-02: extra column in cases database 
+  ccolnames<-intersect( colnames(Deaths),colnames(Cases) )
+  Deaths<-Deaths[,match(ccolnames,colnames(Deaths))] 
+  Cases<-Cases[,match(ccolnames,colnames(Cases))] 
+  
+
   DCcumulative<-array(dim=c(dim(Deaths),2)) 
   DCcumulative[,,1]<-Deaths 
   DCcumulative[,,2]<-Cases   
