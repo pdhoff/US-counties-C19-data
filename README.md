@@ -1,7 +1,7 @@
 US COVID-19 data
 ================
 Peter Hoff
-30 June, 2020
+05 July, 2020
 
 ### Summary
 
@@ -64,7 +64,7 @@ Y<-pullC19data()
 dim(Y) 
 ```
 
-    ## [1] 3195  160    2
+    ## [1] 3195  164    2
 
 ``` r
 dimnames(Y)[[1]][1:5] 
@@ -98,7 +98,7 @@ X<-stateify(Y)
 dim(X) 
 ```
 
-    ## [1]  51 160   2
+    ## [1]  51 164   2
 
 ``` r
 dimnames(X)[[1]][1:5] 
@@ -159,3 +159,4 @@ all( stateify(WY) == weekify(X) )
   - [Simple summaries and plots](demo1.md)
   - [Incorporating geographic and other county and state
     information](demo2.md)
+  - [Weekly death and case rates for US and states](demo3.md)

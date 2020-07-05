@@ -95,6 +95,7 @@ all( stateify(WY) == weekify(X) )
 
 * [Simple summaries and plots](demo1.md)
 * [Incorporating geographic and other county and state information](demo2.md)
+* [Weekly death and case rates for US and states](demo3.md)
 
 
 

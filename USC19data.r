@@ -80,11 +80,24 @@ state2fips<-function(state)
 
 
 
-stateify<-function(Y){ 
-  # tapply sum within states 
+stateify<-function(Y,UStotal=FALSE){ 
+  # tapply sum within states  
+  # add US totals at the bottom if requested 
   stateFIPS<-substr(dimnames(Y)[[1]],1,2) 
   X<-apply(Y,c(2,3),function(x){ tapply(x,stateFIPS,sum) })
   dimnames(X)[[1]]<-fips2state(dimnames(X)[[1]])  
+
+  if(UStotal)
+  { 
+    ust<-apply(X,c(2,3),sum)
+    tmp<-array(dim=dim(X)+c(1,0,0))
+    tmp[1:dim(X)[1],,]<-X
+    tmp[dim(X)[1]+1,,]<-ust
+    dimnames(tmp)[[1]]<-c(dimnames(X)[[1]],"US")
+    dimnames(tmp)[[2]]<-dimnames(X)[[2]]
+    dimnames(tmp)[[3]]<-dimnames(X)[[3]]
+    X<-tmp 
+  }
 
   X
 }
