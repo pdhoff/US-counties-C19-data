@@ -7,7 +7,8 @@ output: github_document
 
 Get C19 data:
 ```{r}
-source("USC19data.r")
+source("https://raw.githubusercontent.com/pdhoff/US-counties-C19-data/master/USC19data.r")
+
 Cdata<-pullC19data() 
 dcounts<-stateify(Cdata,UStotal=TRUE) 
 wcounts<-weekify(dcounts) 

@@ -33,7 +33,7 @@ Comments:
 
 Load in the functions and see what they are: 
 ```{r}
-source("USC19data.r")
+source("https://raw.githubusercontent.com/pdhoff/US-counties-C19-data/master/USC19data.r")
 
 objects()
 ```

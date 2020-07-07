@@ -1,7 +1,7 @@
 US COVID-19 rates - US and state summaries
 ================
 Peter Hoff
-05 July, 2020
+06 July, 2020
 
 Get C19 data:
 

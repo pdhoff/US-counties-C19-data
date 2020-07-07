@@ -8,7 +8,7 @@ output: github_document
 
 Get data:
 ```{r}
-source("USC19data.r")
+source("https://raw.githubusercontent.com/pdhoff/US-counties-C19-data/master/USC19data.r")
 
 C19data<-pullC19data() 
 
