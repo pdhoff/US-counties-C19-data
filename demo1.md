@@ -1,12 +1,12 @@
 US COVID-19 summary statistics
 ================
 Peter Hoff
-30 June, 2020
+07 July, 2020
 
 Get data:
 
 ``` r
-source("USC19data.r") 
+source("https://raw.githubusercontent.com/pdhoff/US-counties-C19-data/master/USC19data.r")
 
 C19data<-pullC19data()
 ```
@@ -19,12 +19,12 @@ tail(dnc)
 ```
 
     ##            deaths cases
-    ## 2020-06-24      0    75
-    ## 2020-06-25      0     0
-    ## 2020-06-26      0   132
-    ## 2020-06-27      1    70
-    ## 2020-06-28      0    50
-    ## 2020-06-29      0    53
+    ## 2020-07-01      0    78
+    ## 2020-07-02      2    78
+    ## 2020-07-03      2   110
+    ## 2020-07-04      1    52
+    ## 2020-07-05      1    47
+    ## 2020-07-06      0    68
 
 Get weekly totals for each state:
 
@@ -33,7 +33,7 @@ Y<-weekify(stateify(C19data))
 dim(Y) 
 ```
 
-    ## [1] 51 22  2
+    ## [1] 51 23  2
 
 Deaths per cases plot for some states I’ve lived in:
 

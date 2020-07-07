@@ -1,12 +1,13 @@
 US COVID-19 rates - US and state summaries
 ================
 Peter Hoff
-06 July, 2020
+07 July, 2020
 
 Get C19 data:
 
 ``` r
-source("USC19data.r")
+source("https://raw.githubusercontent.com/pdhoff/US-counties-C19-data/master/USC19data.r")
+
 Cdata<-pullC19data() 
 dcounts<-stateify(Cdata,UStotal=TRUE) 
 wcounts<-weekify(dcounts) 

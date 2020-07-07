@@ -1,19 +1,19 @@
 US COVID-19 county and state rates per population
 ================
 Peter Hoff
-30 June, 2020
+07 July, 2020
 
 Get data:
 
 ``` r
-source("USC19data.r")
+source("https://raw.githubusercontent.com/pdhoff/US-counties-C19-data/master/USC19data.r")
 
 C19data<-pullC19data() 
 
 dim(C19data) 
 ```
 
-    ## [1] 3195  160    2
+    ## [1] 3195  167    2
 
 Merge with county information:
 
@@ -26,7 +26,7 @@ C19data<-C19data[ match(USCdata$fips,dimnames(C19data)[[1]]),, ]
 dim(C19data)
 ```
 
-    ## [1] 3141  160    2
+    ## [1] 3141  167    2
 
 Relationship between county death rates and county population density:
 

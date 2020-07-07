@@ -1,7 +1,7 @@
 US COVID-19 data
 ================
 Peter Hoff
-05 July, 2020
+07 July, 2020
 
 ### Summary
 
@@ -48,7 +48,7 @@ Comments:
 Load in the functions and see what they are:
 
 ``` r
-source("USC19data.r")
+source("https://raw.githubusercontent.com/pdhoff/US-counties-C19-data/master/USC19data.r")
 
 objects()
 ```
@@ -64,7 +64,7 @@ Y<-pullC19data()
 dim(Y) 
 ```
 
-    ## [1] 3195  164    2
+    ## [1] 3195  167    2
 
 ``` r
 dimnames(Y)[[1]][1:5] 
@@ -98,7 +98,7 @@ X<-stateify(Y)
 dim(X) 
 ```
 
-    ## [1]  51 164   2
+    ## [1]  51 167   2
 
 ``` r
 dimnames(X)[[1]][1:5] 
@@ -126,7 +126,7 @@ WY<-weekify(Y)
 dim(WY) 
 ```
 
-    ## [1] 3195   22    2
+    ## [1] 3195   23    2
 
 ``` r
 dimnames(WY)[[1]][1:5]
