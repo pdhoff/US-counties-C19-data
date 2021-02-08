@@ -12,6 +12,12 @@ source("https://raw.githubusercontent.com/pdhoff/US-counties-C19-data/master/USC
 Cdata<-pullC19data() 
 dcounts<-stateify(Cdata,UStotal=TRUE) 
 wcounts<-weekify(dcounts) 
+
+wccounts<-weekify(Cdata) 
+
+Durham<-"37063" 
+wccounts[Durham,,] 
+
 ```
 
 Get population data:

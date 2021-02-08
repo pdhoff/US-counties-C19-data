@@ -25,7 +25,20 @@ pullC19data<-function()
   ## 2020-06-30: county names are inconsistent, but FIPS ok
   dregions<-usfDeaths[,c(1,3,4)]  
   cregions<-usfCases[,c(1,3,4)] 
-  if(!all(dregions==cregions)){ cat("Warning: inconsistent region","\n") }
+  #if(!all(dregions==cregions)){ cat("Warning: inconsistent region","\n") }
+
+  ## 2021-02-08 website has counties out-of-order - need to match
+  dreg<-apply(dregions,1,paste0,collapse="")  
+  creg<-apply(cregions,1,paste0,collapse="") 
+  ureg<-sort(intersect(dreg,creg)) 
+  didx<-match(ureg,dreg) 
+  cidx<-match(ureg,creg) 
+  usfDeaths<-usfDeaths[didx,] 
+  usfCases<-usfCases[cidx,] 
+  dregions<-usfDeaths[,c(1,3,4)]
+  cregions<-usfCases[,c(1,3,4)]
+
+
 
   Deaths<-as.matrix(usfDeaths[,-(1:4)])
   Cases<-as.matrix(usfCases[,-(1:4)])
@@ -47,8 +60,9 @@ pullC19data<-function()
   fips[nchar(fips)==4]<-paste0("0",fips[nchar(fips)==4]) 
 
   dimnames(DCincident)[[1]]<-fips
-  dimnames(DCincident)[[3]]<-c("deaths","cases")  
-  dimnames(DCincident)[[2]]<-as.character(lubridate::mdy(substring(colnames(Deaths),2)))
+  dimnames(DCincident)[[3]]<-c("deaths","cases")   
+#  dimnames(DCincident)[[2]]<-as.character(lubridate::mdy(substring(colnames(Deaths),2))) # changed format 
+  dimnames(DCincident)[[2]]<-as.character(lubridate::ymd(substring(colnames(Deaths),2)))
 
   DCincident    
 }
